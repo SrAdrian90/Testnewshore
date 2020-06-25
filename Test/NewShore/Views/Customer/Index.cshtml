@@ -1,0 +1,52 @@
+﻿@model NewShore.Models.CustomerViewModel
+@{
+    ViewData["Title"] = "Newshore Customer";
+}
+
+<div class="container">
+    <h2>
+        Identificador de Clientes
+    </h2>
+    <div class="panel panel-default col-md-6 col-lg-6">
+        <div class="panel-body">
+            <form style="margin:8px;" asp-action="Analyze" enctype="multipart/form-data">
+                <div class="row">
+                    <div>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <p style="font-family:Cabin">
+                            Ingresar el archivo REGISTRADOS. txt.
+                        </p>
+
+                        <div class="form-group">
+                            <input asp-for="RegisteredFile" class="form-control" type="file" />
+                            <span asp-validation-for="RegisteredFile" class="text-danger"></span>
+                        </div>
+
+                        <p style="font-family:Cabin">
+                            Ingresar el archivo  CONTENIDO. txt.
+                        </p>
+
+                        <div class="form-group">
+
+                            <input asp-for="ContenFile" class="form-control" type="file" />
+                            <span asp-validation-for="RegisteredFile" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="font-family:Cabin">
+                    Iniciar análisis
+                </p>
+
+                <input type="submit" value="Analizar" class="btn btn-default btn-lg" />
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

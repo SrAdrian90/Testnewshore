@@ -1,0 +1,40 @@
+﻿@model IEnumerable<NewShore.Models.DetailsCustomerViewModel>
+<div class="container">
+    <h2>
+        Resultados:
+    </h2>
+    <table style="font-family:Cabin" class="table " id="MyTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                        @if (item.Exist)
+                        {
+                            <i class="glyphicon glyphicon-ok"></i>
+                        }
+                        else
+                        {
+                            <i class="glyphicon glyphicon glyphicon-remove"></i>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a asp-action="FileResult"
+       asp-controller="Customer"
+       class="btn btn-default"
+       data-toggle="modal"
+       title="Descargar"><label>Descargar Resultado</label></a>
+
+</div>
