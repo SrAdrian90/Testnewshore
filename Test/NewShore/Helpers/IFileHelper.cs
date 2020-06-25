@@ -13,6 +13,6 @@ namespace NewShore.Helpers
 
         Task<string> CreateFiletxt(List<DetailsCustomerViewModel> detailsCustomerViewModels);
 
-        Task<byte[]> ByteTxtPlainAsync();
+        Task<byte[]> ByteTxtPlain();
     }
 }

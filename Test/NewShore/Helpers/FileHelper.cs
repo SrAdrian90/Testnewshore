@@ -26,6 +26,7 @@ namespace NewShore.Helpers
 
 
                 string pattern = @"\r\n";
+
                 List<string> List = System.Text.RegularExpressions.Regex.Split(content, pattern).ToList();
 
 
@@ -77,6 +78,7 @@ namespace NewShore.Helpers
                 }
 
                 byte[] stream = new UTF8Encoding(true).GetBytes(document);
+
                 await Filetxt.WriteAsync(stream, 0, stream.Length);
             }
 
@@ -84,23 +86,23 @@ namespace NewShore.Helpers
 
         }
 
-        public async Task<byte[]> ByteTxtPlainAsync()
+        public async Task<byte[]> ByteTxtPlain()
         {
             try
             {
+                MemoryStream ms = new MemoryStream();
+
                 string file = "FileResult.txt";
 
                 string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\archives", file);
 
-                var filetxt = File.OpenText(path);
+                StreamReader filetxt = File.OpenText(path);
 
+                await filetxt.BaseStream.CopyToAsync(ms);
 
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    await filetxt.BaseStream.CopyToAsync(ms);
+                filetxt.Close();
 
-                    return ms.ToArray();
-                }
+                return ms.ToArray();
             }
 
             catch (Exception)

@@ -51,24 +51,5 @@ namespace NewShore.Controllers
 
         }
 
-
-        public async Task<FileContentResult> FileResult()
-        {
-            try
-            {
-                var file = await _fileHelper.ByteTxtPlainAsync();
-
-                string contentType = "text/html";
-
-                return File(file, contentType, "Result.txt");
-
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
-
-        }
-
     }
 }
