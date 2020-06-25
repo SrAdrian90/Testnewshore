@@ -9,7 +9,7 @@ namespace NewShore.Controllers
         private readonly IFileHelper _fileHelper;
 
 
-        public DownloadController(IFileHelper fileHelper, IFilterCustomer filterCustomer)
+        public DownloadController(IFileHelper fileHelper)
         {
             _fileHelper = fileHelper;
         }
@@ -18,7 +18,7 @@ namespace NewShore.Controllers
         {
             try
             {
-                byte[] file = await _fileHelper.ByteTxtPlain();
+                byte[] file = await _fileHelper.ByteTxtPlainAsync();
 
                 string contentType = "text/html";
 

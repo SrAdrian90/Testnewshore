@@ -2,6 +2,7 @@
 using NewShore.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,10 +10,10 @@ namespace NewShore.Helpers
 {
     public interface IFileHelper
     {
-        Task<List<string>> ReadFileAsync(IFormFile textFile);
+        Task<List<string>> ReadFileAsync(Stream textFile);
 
-        Task<string> CreateFiletxt(List<DetailsCustomerViewModel> detailsCustomerViewModels);
+        Task<string> CreateFiletxtAsync(List<DetailsCustomerViewModel> detailsCustomerViewModels);
 
-        Task<byte[]> ByteTxtPlain();
+        Task<byte[]> ByteTxtPlainAsync();
     }
 }

@@ -142,7 +142,7 @@ namespace NewShore.Helpers
 
             //To Create .Txt
 
-            var patch = await _fileHelper.CreateFiletxt(CustomerOk);
+            var patch = await _fileHelper.CreateFiletxtAsync(CustomerOk);
 
             return CustomerOk;
 

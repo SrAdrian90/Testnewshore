@@ -11,15 +11,14 @@ namespace NewShore.Helpers
 {
     public class FileHelper : IFileHelper
     {
-        public async Task<List<string>> ReadFileAsync(IFormFile textFile)
+        public async Task<List<string>> ReadFileAsync(Stream textFile)
         {
             try
             {
-                Stream stream = textFile.OpenReadStream();
-
                 string content;
 
-                using (StreamReader fileReader = new StreamReader(stream, Encoding.UTF8))
+
+                using (StreamReader fileReader = new StreamReader(textFile, Encoding.UTF8))
                 {
                     content = await fileReader.ReadToEndAsync();
                 }
@@ -28,7 +27,6 @@ namespace NewShore.Helpers
                 string pattern = @"\r\n";
 
                 List<string> List = System.Text.RegularExpressions.Regex.Split(content, pattern).ToList();
-
 
                 return List;
             }
@@ -40,7 +38,7 @@ namespace NewShore.Helpers
             }
         }
 
-        public async Task<string> CreateFiletxt(List<DetailsCustomerViewModel> detailsCustomerViewModels)
+        public async Task<string> CreateFiletxtAsync(List<DetailsCustomerViewModel> detailsCustomerViewModels)
         {
             string file = "FileResult.txt";
 
@@ -86,7 +84,7 @@ namespace NewShore.Helpers
 
         }
 
-        public async Task<byte[]> ByteTxtPlain()
+        public async Task<byte[]> ByteTxtPlainAsync()
         {
             try
             {

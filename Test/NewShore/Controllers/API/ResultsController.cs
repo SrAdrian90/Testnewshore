@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using NewShore.Helpers;
+using NewShore.Models;
+using NewShore.Request;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace NewShore.Controllers.API
 {
@@ -12,36 +15,50 @@ namespace NewShore.Controllers.API
     [ApiController]
     public class ResultsController : ControllerBase
     {
-        // GET: api/<ResultsController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IFileHelper _fileHelper;
+        private readonly IFilterCustomer _filterCustomer;
+
+        public ResultsController(IFileHelper fileHelper, IFilterCustomer filterCustomer)
         {
-            return new string[] { "value1", "value2" };
+            _fileHelper = fileHelper;
+            _filterCustomer = filterCustomer;
         }
 
-        // GET api/<ResultsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
-        // POST api/<ResultsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [Route("ResultFilter")]
+        public async Task<IActionResult> GetResultFilter(ResultFilterRequest resultFilterRequest)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+
+            if (resultFilterRequest.ContenArray != null && resultFilterRequest.ContenArray.Length > 0 &&
+                resultFilterRequest.RegisterArray.Length > 0 && resultFilterRequest != null)
+            {
+
+                MemoryStream streamRegisterFile = new MemoryStream(resultFilterRequest.RegisterArray);
+                MemoryStream streamContentFile = new MemoryStream(resultFilterRequest.ContenArray);
+
+                List<string> ListRegisters = await _fileHelper.ReadFileAsync(streamRegisterFile);
+
+                List<string> ListConten = await _fileHelper.ReadFileAsync(streamContentFile);
+
+                List<DetailsCustomerViewModel> CustomersFilter = await _filterCustomer.FilterCustumerAsync(ListRegisters, ListConten);
+
+                byte[] resultData = await _fileHelper.ByteTxtPlainAsync();
+
+                return Ok(resultData);
+
+            }
+
+
+            return BadRequest("Please enter a valid byte set");
+
+
         }
 
-        // PUT api/<ResultsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ResultsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

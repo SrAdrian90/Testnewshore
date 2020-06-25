@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Rewrite.Internal;
 using NewShore.Helpers;
 using NewShore.Models;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -31,9 +32,13 @@ namespace NewShore.Controllers
             {
                 try
                 {
-                    List<string> ListRegisters = await _fileHelper.ReadFileAsync(model.RegisteredFile);
+                    Stream streamRegisterFile = model.RegisteredFile.OpenReadStream();
 
-                    List<string> ListConten = await _fileHelper.ReadFileAsync(model.ContenFile);
+                    Stream streamContentFile = model.ContenFile.OpenReadStream();
+
+                    List<string> ListRegisters = await _fileHelper.ReadFileAsync(streamRegisterFile);
+
+                    List<string> ListConten = await _fileHelper.ReadFileAsync(streamContentFile);
 
                     List<DetailsCustomerViewModel> CustomersFilter = await _filterCustomer.FilterCustumerAsync(ListRegisters, ListConten);
 
